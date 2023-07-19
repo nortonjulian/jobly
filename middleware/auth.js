@@ -49,20 +49,22 @@ function ensureAdmin(req, res, next) {
 function ensureCorrectUserOrAdmin(req, res, next) {
   try {
     const user = res.locals.user;
-    const requestedUsername = req.params.username
+    const requestedUsername = req.params.username;
 
     console.log("User:", user);
     console.log("Requested Username:", requestedUsername);
 
     // Check if user is an admin or the same user as requested
     if (!(user && (user.isAdmin || user.username === requestedUsername))) {
-      throw new UnauthorizedError();
+      throw new UnauthorizedError(); // Throw an UnauthorizedError when user is unauthorized
     }
-    return next();
+
+    return next(); // Call next() only when user is authorized
   } catch (err) {
-    return next(err);
+    return next(err); // Call next() with the error when UnauthorizedError is thrown
   }
 }
+
 
 module.exports = {
   authenticateJWT,
