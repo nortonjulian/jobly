@@ -7,18 +7,15 @@ const { SECRET_KEY } = require("../config");
 /** Middleware: Authenticate user. */
 function authenticateJWT(req, res, next) {
   try {
-    const tokenFromBody = req.body._token;
-    const tokenFromParams = req.query._token;
-    const token = tokenFromBody || tokenFromParams;
-
-    if (token) {
-      const payload = jwt.verify(token, SECRET_KEY);
-      res.locals.user = payload.user; // Correct the assignment here
+    const authHeader = req.headers && req.headers.authorization;
+    if (authHeader) {
+      const token = authHeader.replace(/^[Bb]earer /, "").trim();
+      res.locals.user = jwt.verify(token, SECRET_KEY);
     }
+    return next();
   } catch (err) {
-    // ignore if invalid token
+    return next();
   }
-  return next();
 }
 
 /** Middleware: Requires user is authenticated. */

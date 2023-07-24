@@ -30,11 +30,11 @@ describe("POST /companies", function () {
   };
 
   test("ok for users", async function () {
+    console.log("Token:", u1Token); 
     const resp = await request(app)
         .post("/companies")
         .send(newCompany)
         .set("authorization", `Bearer ${u1Token}`);
-        console.log(u1Token)
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       company: newCompany,
