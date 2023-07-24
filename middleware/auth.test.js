@@ -1,5 +1,5 @@
 const { UnauthorizedError } = require("../expressError");
-const { ensureCorrectUserOrAdmin } = require("../middleware/auth");
+const { ensureCorrectUserOrAdmin, ensureAdmin } = require("../middleware/auth");
 
 describe("ensureCorrectUserOrAdmin", function () {
   test("works: admin", function () {
@@ -41,6 +41,6 @@ describe("ensureCorrectUserOrAdmin", function () {
     };
     console.log("res.locals.user:", res.locals.user);
     console.log("req.params.username:", req.params.username);
-    ensureCorrectUserOrAdmin(req, res, next);
+    ensureAdmin(req, res, next);
   });
 });

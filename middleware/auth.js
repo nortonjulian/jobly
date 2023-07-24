@@ -5,7 +5,6 @@ const { UnauthorizedError } = require("../expressError");
 const { SECRET_KEY } = require("../config");
 
 /** Middleware: Authenticate user. */
-
 function authenticateJWT(req, res, next) {
   try {
     const tokenFromBody = req.body._token;
@@ -14,7 +13,7 @@ function authenticateJWT(req, res, next) {
 
     if (token) {
       const payload = jwt.verify(token, SECRET_KEY);
-      res.locals.user = payload;
+      res.locals.user = payload.user; // Correct the assignment here
     }
   } catch (err) {
     // ignore if invalid token

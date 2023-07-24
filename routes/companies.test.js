@@ -34,6 +34,7 @@ describe("POST /companies", function () {
         .post("/companies")
         .send(newCompany)
         .set("authorization", `Bearer ${u1Token}`);
+        console.log(u1Token)
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       company: newCompany,
@@ -161,7 +162,7 @@ describe("GET /companies", function () {
       companies: [],
     });
   });
-  
+
 
   test("fails: test next() handler", async function () {
     // there's no normal failure event which will cause this route to fail ---
