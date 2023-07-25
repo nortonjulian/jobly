@@ -7,7 +7,7 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 class Job {
   static async create({ title, salary, equity, companyHandle }) {
     // Convert equity to a number with two decimal places
-    equity = parseFloat(equity).toFixed(2);
+    equity = parseFloat(equity).toFixed(1);
 
     const companyCheck = await db.query(
       `SELECT handle
@@ -108,8 +108,8 @@ class Job {
     let queryValues = [];
 
     if (title) {
-      queryValues.push(`%${title}%`);
-      whereExpressions.push(`title ILIKE $${queryValues.length}`);
+        queryValues.push(`%${title}%`);
+        whereExpressions.push(`title ILIKE $${queryValues.length}`);
     }
 
     if (minSalary !== undefined) {
@@ -117,8 +117,8 @@ class Job {
       whereExpressions.push(`salary >= $${queryValues.length}`);
     }
 
-    if (hasEquity === true) {
-      whereExpressions.push(`equity > 0`);
+    if (hasEquity) {
+        whereExpressions.push(`equity > 0`);
     }
 
     if (whereExpressions.length > 0) {

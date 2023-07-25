@@ -4,10 +4,9 @@ const db = require("../db.js");
 const { BCRYPT_WORK_FACTOR } = require("../config");
 
 async function commonBeforeAll() {
-  // noinspection SqlWithoutWhere
   await db.query("DELETE FROM companies");
-  // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
+  await db.query("DELETE FROM jobs");
 
   await db.query(`
     INSERT INTO companies(handle, name, num_employees, description, logo_url)
@@ -16,18 +15,25 @@ async function commonBeforeAll() {
            ('c3', 'C3', 3, 'Desc3', 'http://c3.img')`);
 
   await db.query(`
-        INSERT INTO users(username,
-                          password,
-                          first_name,
-                          last_name,
-                          email)
-        VALUES ('u1', $1, 'U1F', 'U1L', 'u1@email.com'),
-               ('u2', $2, 'U2F', 'U2L', 'u2@email.com')
-        RETURNING username`,
-      [
-        await bcrypt.hash("password1", BCRYPT_WORK_FACTOR),
-        await bcrypt.hash("password2", BCRYPT_WORK_FACTOR),
-      ]);
+    INSERT INTO users(username,
+                      password,
+                      first_name,
+                      last_name,
+                      email)
+    VALUES ('u1', $1, 'U1F', 'U1L', 'u1@email.com'),
+           ('u2', $2, 'U2F', 'U2L', 'u2@email.com')
+    RETURNING username`,
+    [
+      await bcrypt.hash("password1", BCRYPT_WORK_FACTOR),
+      await bcrypt.hash("password2", BCRYPT_WORK_FACTOR),
+    ]);
+
+  await db.query(`
+    INSERT INTO jobs (title, salary, equity, company_handle)
+    VALUES ('Job1', 60000, '0.10', 'c1'),
+           ('Job2', 70000, '0.15', 'c2'),
+           ('Job3', 80000, '0.20', 'c3'),
+           ('Engineer Job', 75000, '0.25', 'c1')`);
 }
 
 async function commonBeforeEach() {
@@ -39,9 +45,12 @@ async function commonAfterEach() {
 }
 
 async function commonAfterAll() {
+  await db.query("DELETE FROM companies");
+  await db.query("DELETE FROM users");
+  await db.query("DELETE FROM jobs");
+
   await db.end();
 }
-
 
 module.exports = {
   commonBeforeAll,
