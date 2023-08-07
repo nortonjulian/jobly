@@ -34,6 +34,7 @@ async function commonBeforeAll() {
            ('Job2', 70000, '0.15', 'c2'),
            ('Job3', 80000, '0.20', 'c3'),
            ('Engineer Job', 75000, '0.25', 'c1')`);
+
 }
 
 async function commonBeforeEach() {

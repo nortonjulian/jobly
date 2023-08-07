@@ -60,26 +60,31 @@ describe("create", function () {
 
 describe("update", function () {
     test("works", async function () {
+      // console.log(await Job.get({}))
       const newJob = {
         title: "Updated Job",
         salary: 75000,
-        equity: "0.05",
+        equity: 0.05,
         companyHandle: "c1", // Add companyHandle property to ensure job exists
       };
-      let job = await Job.update(1, newJob);
+
+      const existingJob = await Job.getFirstJob()
+      console.log("Hello", existingJob)
+
+      let job = await Job.update(existingJob.id, newJob);
       expect(job).toEqual({
-        id: 1,
+        id: existingJob.id,
         ...newJob,
       });
 
       const result = await db.query(
         `SELECT id, title, salary, equity, company_handle
          FROM jobs
-         WHERE id = 1`
+         WHERE id = ${existingJob.id}`
       );
       expect(result.rows).toEqual([
         {
-          id: 1,
+          id: existingJob.id,
           title: "Updated Job",
           salary: 75000,
           equity: "0.05",
@@ -167,7 +172,7 @@ describe("findAll", function () {
   });
 
   test("works: filter by title", async function () {
-    let jobs = await Job.findAll({ title: "Developer" });
+    let jobs = await Job.findAll({ title: "Engineer Job" });
     expect(jobs.length).toBeGreaterThan(0);
   });
 

@@ -30,21 +30,28 @@ class Job {
     return job;
   }
 
+  static async getFirstJob() {
+    const res = await db.query(
+      `SELECT * FROM jobs LIMIT 1`
+    )
+    return res.rows[0]
+  }
+
   static async update(id, data) {
     const { setCols, values } = sqlForPartialUpdate(data, {
       companyHandle: "company_handle",
     });
-    const idVarIdx = "$" + (values.length + 1);
 
     const querySql = `UPDATE jobs
                       SET ${setCols}
-                      WHERE id = ${idVarIdx}
+                      WHERE id = ${id}
                       RETURNING id,
                                 title,
                                 salary,
                                 equity,
                                 company_handle AS "companyHandle"`;
-    const result = await db.query(querySql, [...values, id]);
+    const result = await db.query(querySql, values);
+    console.log("Hello", id, data)
     const job = result.rows[0];
 
     if (!job) throw new NotFoundError(`Job not found: ${id}`);
