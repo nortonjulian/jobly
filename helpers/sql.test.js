@@ -1,4 +1,3 @@
-const { BadRequestError } = require("../expressError")
 const { sqlForPartialUpdate } = require('./sql');
 
 const dataToUpdate = {
