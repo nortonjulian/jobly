@@ -6,17 +6,30 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 
 class Job {
   static async create(data) {
+    // Check if the company exists before inserting the job
+    const company = await db.query(
+      `SELECT handle FROM companies WHERE handle = $1`,
+      [data.companyHandle]
+    );
+
+    if (company.rows.length === 0) {
+      throw new BadRequestError("Company does not exist");
+    }
+
+    // Insert the job into the database
     const result = await db.query(
       `INSERT INTO jobs (title, salary, equity, company_handle)
        VALUES ($1, $2, $3, $4)
        RETURNING id, title, salary, equity, company_handle AS "companyHandle"`,
-      [ data.title,
+      [
+        data.title,
         data.salary,
         data.equity,
-        data.companyHandle
-      ]);
-    const job = result.rows[0];
+        data.companyHandle,
+      ]
+    );
 
+    const job = result.rows[0];
     return job;
   }
 
