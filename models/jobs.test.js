@@ -122,16 +122,20 @@ describe("update", function () {
 
   describe("get", function () {
     test("works", async function () {
-      console.log("Job:", job)
       let job = await Job.getFirstJob();
-      console.log("Job:", job)
-      // const randomJob = await Job.get(randomJob.id, job)
-      expect(job).toEqual({
-        id: 1,
+      const randomJob = await Job.get(job.id)
+      expect(randomJob).toEqual({
+        id: randomJob.id,
+        company: {
+          handle: "c1",
+          name: "C1",
+          logoUrl: "http://c1.img",
+          numEmployees: 1,
+          description: "Desc1"
+        },
         title: "Job1",
         salary: 60000,
         equity: "0.10",
-        companyHandle: "c1",
       });
     });
 

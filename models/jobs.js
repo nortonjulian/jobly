@@ -53,7 +53,7 @@ class Job {
     }
 
     // Convert salary and equity to numbers for each job
-    baseQuery += " ORDER BT title";
+    baseQuery += " ORDER BY title";
     const jobsRes = await db.query(baseQuery, queryValues);
     return jobsRes.rows;
   }
@@ -105,18 +105,18 @@ class Job {
     const result = await db.query(querySql, [...values, id]);
     console.log("Hello", id, data)
     const job = result.rows[0];
-
+    console.log("Job:", job)
     if (!job) throw new NotFoundError(`Job not found: ${id}`);
 
     return job;
   }
 
-  // static async getFirstJob() {
-  //   const res = await db.query(
-  //     `SELECT * FROM jobs LIMIT 1`
-  //   )
-  //   return res.rows[0]
-  // }
+  static async getFirstJob() {
+    const res = await db.query(
+      `SELECT * FROM jobs LIMIT 1`
+    )
+    return res.rows[0]
+  }
 
   static async remove(id) {
     const result = await db.query(
@@ -133,25 +133,25 @@ class Job {
 
 
 
-  // static async getAllJobsForCompany(companyHandle) {
-  //   const jobsRes = await db.query(
-  //     `SELECT id,
-  //             title,
-  //             salary,
-  //             equity
-  //     FROM jobs
-  //     WHERE company_handle = $1`,
-  //     [companyHandle]
-  //   );
+  static async getAllJobsForCompany(companyHandle) {
+    const jobsRes = await db.query(
+      `SELECT id,
+              title,
+              salary,
+              equity
+      FROM jobs
+      WHERE company_handle = $1`,
+      [companyHandle]
+    );
 
-  //   // Convert salary and equity to numbers for each job
-  //   for (let job of jobsRes.rows) {
-  //     job.salary = parseFloat(job.salary);
-  //     job.equity = parseFloat(job.equity);
-  //   }
+    // Convert salary and equity to numbers for each job
+    for (let job of jobsRes.rows) {
+      job.salary = parseFloat(job.salary);
+      job.equity = parseFloat(job.equity);
+    }
 
-  //   return jobsRes.rows;
-  // }
+    return jobsRes.rows;
+  }
 }
 
 module.exports = Job;
