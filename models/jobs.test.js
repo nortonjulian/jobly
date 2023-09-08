@@ -64,8 +64,7 @@ describe("update", function () {
       const newJob = {
         title: "Updated Job",
         salary: 75000,
-        equity: 0.05,
-        companyHandle: "c1", // Add companyHandle property to ensure job exists
+        equity: "0.05",// Add companyHandle property to ensure job exists
       };
 
       const existingJob = await Job.getFirstJob()
@@ -75,6 +74,7 @@ describe("update", function () {
       expect(job).toEqual({
         id: existingJob.id,
         ...newJob,
+        companyHandle: "c1"
       });
 
       const result = await db.query(

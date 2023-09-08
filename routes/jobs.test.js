@@ -209,6 +209,10 @@ describe("PATCH /jobs/:id", function () {
         salary: 1,
         equity: "0.1",
         companyHandle: "c1",
+        error: {
+          message: "Unauthorized",
+          status: 401,
+        }
       },
     });
   });

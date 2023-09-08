@@ -109,7 +109,7 @@ class Job {
 
     const querySql = `UPDATE jobs
                       SET ${setCols}
-                      WHERE id = ${id}
+                      WHERE id = ${idVarIdx}
                       RETURNING id,
                                 title,
                                 salary,
