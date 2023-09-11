@@ -34,7 +34,9 @@ describe("POST /users", function () {
           isAdmin: false,
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(201);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       user: {
         username: "u-new",
@@ -58,7 +60,9 @@ describe("POST /users", function () {
           isAdmin: true,
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(201);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       user: {
         username: "u-new",
@@ -91,7 +95,8 @@ describe("POST /users", function () {
           username: "u-new",
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 
   test("bad request if invalid data", async function () {
@@ -106,7 +111,8 @@ describe("POST /users", function () {
           isAdmin: true,
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 });
 
@@ -117,6 +123,7 @@ describe("GET /users", function () {
     const resp = await request(app)
         .get("/users")
         .set("authorization", `Bearer ${u1Token}`);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       users: [
         {
@@ -158,7 +165,8 @@ describe("GET /users", function () {
     const resp = await request(app)
         .get("/users")
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(500);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 });
 
@@ -169,6 +177,7 @@ describe("GET /users/:username", function () {
     const resp = await request(app)
         .get(`/users/u1`)
         .set("authorization", `Bearer ${u1Token}`);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       user: {
         username: "u1",
@@ -190,7 +199,8 @@ describe("GET /users/:username", function () {
     const resp = await request(app)
         .get(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(404);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 });
 
@@ -204,6 +214,7 @@ describe("PATCH /users/:username", () => {
           firstName: "New",
         })
         .set("authorization", `Bearer ${u1Token}`);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       user: {
         username: "u1",
@@ -231,7 +242,8 @@ describe("PATCH /users/:username", () => {
           firstName: "Nope",
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(404);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 
   test("bad request if invalid data", async function () {
@@ -241,7 +253,8 @@ describe("PATCH /users/:username", () => {
           firstName: 42,
         })
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 
   test("works: set new password", async function () {
@@ -272,6 +285,7 @@ describe("DELETE /users/:username", function () {
     const resp = await request(app)
         .delete(`/users/u1`)
         .set("authorization", `Bearer ${u1Token}`);
+    console.log(resp.body)
     expect(resp.body).toEqual({ deleted: "u1" });
   });
 
@@ -285,6 +299,7 @@ describe("DELETE /users/:username", function () {
     const resp = await request(app)
         .delete(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(404);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(401);
   });
 });

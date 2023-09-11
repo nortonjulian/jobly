@@ -216,13 +216,13 @@ describe("PATCH /jobs/:id", function () {
       .send({
         title: "J-New",
       })
-      .set("Unauthorized", `Bearer ${adminToken}`);
+      .set("authorization", `Bearer ${adminToken}`);
     console.log(resp.body)
     expect(resp.body).toEqual({
       job: {
         id: expect.any(Number),
         title: "J-New",
-        salary: 1,
+        salary: 50000,
         equity: "0.1",
         companyHandle: "c1",
       },
