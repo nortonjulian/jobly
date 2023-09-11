@@ -30,7 +30,7 @@ describe("POST /companies", function () {
   };
 
   test("ok for users", async function () {
-    console.log("Token:", u1Token); 
+    console.log("Token:", u1Token);
     const resp = await request(app)
         .post("/companies")
         .send(newCompany)
@@ -181,6 +181,7 @@ describe("GET /companies", function () {
 describe("GET /companies/:handle", function () {
   test("works for anon", async function () {
     const resp = await request(app).get(`/companies/c1`);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       company: {
         handle: "c1",
@@ -194,6 +195,7 @@ describe("GET /companies/:handle", function () {
 
   test("works for anon: company w/o jobs", async function () {
     const resp = await request(app).get(`/companies/c2`);
+    console.log(resp.body)
     expect(resp.body).toEqual({
       company: {
         handle: "c2",

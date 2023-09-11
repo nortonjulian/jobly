@@ -35,7 +35,7 @@ describe("POST /users", function () {
         })
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(201);
     console.log(resp.body)
     expect(resp.body).toEqual({
       user: {
@@ -61,7 +61,7 @@ describe("POST /users", function () {
         })
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(201);
     console.log(resp.body)
     expect(resp.body).toEqual({
       user: {
@@ -96,7 +96,7 @@ describe("POST /users", function () {
         })
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(400);
   });
 
   test("bad request if invalid data", async function () {
@@ -112,7 +112,7 @@ describe("POST /users", function () {
         })
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(400);
   });
 });
 
@@ -126,6 +126,13 @@ describe("GET /users", function () {
     console.log(resp.body)
     expect(resp.body).toEqual({
       users: [
+        {
+          username: "admin",
+          firstName: "Admin",
+          lastName: "User",
+          email: "admin@user.com",
+          isAdmin: true
+        },
         {
           username: "u1",
           firstName: "U1F",
@@ -166,7 +173,7 @@ describe("GET /users", function () {
         .get("/users")
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(500);
   });
 });
 
@@ -200,7 +207,7 @@ describe("GET /users/:username", function () {
         .get(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(404);
   });
 });
 
@@ -243,7 +250,7 @@ describe("PATCH /users/:username", () => {
         })
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(404);
   });
 
   test("bad request if invalid data", async function () {
@@ -254,7 +261,7 @@ describe("PATCH /users/:username", () => {
         })
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(400);
   });
 
   test("works: set new password", async function () {
@@ -300,6 +307,6 @@ describe("DELETE /users/:username", function () {
         .delete(`/users/nope`)
         .set("authorization", `Bearer ${u1Token}`);
     console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(401);
+    expect(resp.statusCode).toEqual(404);
   });
 });

@@ -6,7 +6,7 @@ const Company = require("../models/company");
 const Job = require("../models/jobs");
 const { createToken } = require("../helpers/tokens");
 
-let u1Token; // Declare u1Token variable
+ // Declare u1Token variable
 
 const testJobIds = [];
 
@@ -95,7 +95,6 @@ async function commonBeforeAll() {
 
 
   const adminUser = await User.get("admin");
-  u1Token = createToken({ username: adminUser.username, isAdmin: true });
 }
 
 async function commonBeforeEach() {
@@ -110,6 +109,8 @@ async function commonAfterAll() {
   await db.end();
 }
 
+const u1Token = createToken({ username: "u1", isAdmin: false });
+const u2Token = createToken({ username: "u2", isAdmin: false });
 const adminToken = createToken({ username: "admin", isAdmin: true });
 module.exports = {
   commonBeforeAll,
@@ -119,4 +120,5 @@ module.exports = {
   adminToken,
   testJobIds,
   u1Token,
+  u2Token,
 };
