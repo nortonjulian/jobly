@@ -110,11 +110,13 @@ async function commonAfterAll() {
   await db.end();
 }
 
+const adminToken = createToken({ username: "admin", isAdmin: true });
 module.exports = {
   commonBeforeAll,
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
+  adminToken,
   testJobIds,
   u1Token,
 };
