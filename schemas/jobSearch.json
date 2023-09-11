@@ -5,4 +5,4 @@
       "hasEquity": { "type": "boolean" },
       "title": { "type": "string" }
     }
-  }
+}

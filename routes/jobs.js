@@ -26,12 +26,22 @@ const router = express.Router({ mergeParams: true });
 
 router.post("/", ensureAdmin, async function (req, res, next) {
   try {
+    // Check for missing required fields in the request body
+    const requiredFields = ["title", "salary", "equity", "companyHandle"];
+    for (const field of requiredFields) {
+      if (!(field in req.body)) {
+        throw new BadRequestError(`Missing required field: ${field}`);
+      }
+    }
+    console.log(requiredFields)
+    // Validate the request body using JSON Schema
     const validator = jsonschema.validate(req.body, jobNewSchema);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
 
+    // If all required fields are present and JSON Schema validation passes, create the job
     const job = await Job.create(req.body);
     return res.status(201).json({ job });
   } catch (err) {
@@ -96,9 +106,9 @@ router.get("/:id", async function (req, res, next) {
  *
  * Authorization required: admin
  */
-
 router.patch("/:id", ensureAdmin, async function (req, res, next) {
   try {
+
     const validator = jsonschema.validate(req.body, jobUpdateSchema);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
@@ -111,6 +121,7 @@ router.patch("/:id", ensureAdmin, async function (req, res, next) {
     return next(err);
   }
 });
+
 
 /** DELETE /[handle]  =>  { deleted: id }
  *
