@@ -118,6 +118,19 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
   }
 });
 
+router.post("/:username/jobs/:id", ensureLoggedIn, async function (req, res, next) {
+  try {
+    const { username, id } = req.params;
+
+    ensureCorrectUserOrAdmin(req, username);
+
+    const appliedJob = await User.applyForJob(username, id);
+
+    return res.json({ applied: appliedJob.jobs })
+  } catch (err) {
+    return next(err)
+  }
+})
 
 
 

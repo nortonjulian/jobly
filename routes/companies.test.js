@@ -183,14 +183,12 @@ describe("GET /companies/:handle", function () {
     const resp = await request(app).get(`/companies/c1`);
     console.log(resp.body)
     expect(resp.body).toEqual({
-      company: {
         handle: "c1",
         name: "C1",
         description: "Desc1",
         numEmployees: 1,
         logoUrl: "http://c1.img",
         jobs: [ {id: expect.any(Number), title: 'Job 1', salary: 50000, equity: 0.1 } ]
-      },
     });
   });
 
@@ -198,14 +196,12 @@ describe("GET /companies/:handle", function () {
     const resp = await request(app).get(`/companies/c2`);
     console.log(resp.body)
     expect(resp.body).toEqual({
-      company: {
         handle: "c2",
         name: "C2",
         description: "Desc2",
         numEmployees: 2,
         logoUrl: "http://c2.img",
         jobs: [ {id: expect.any(Number), title: 'Job 2', salary: 60000, equity: 0.2 } ]
-      },
     });
   });
 
