@@ -73,6 +73,7 @@ router.get("/:username", ensureLoggedIn, async function (req, res, next) {
     const user = await User.get(req.params.username);
     return res.json({ user });
   } catch (err) {
+    // return next(err);
     return next(err);
   }
 });
@@ -118,19 +119,23 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
   }
 });
 
-router.post("/:username/jobs/:id", ensureLoggedIn, async function (req, res, next) {
+router.post("/:username/jobs/:id", ensureAdmin, async function (req, res, next) {
   try {
     const { username, id } = req.params;
-
-    ensureCorrectUserOrAdmin(req, username);
+    console.log(username)
+    console.log(id)
+    ensureAdmin(req, username);
+    console.log("Logged in")
 
     const appliedJob = await User.applyForJob(username, id);
+    console.log(appliedJob)
 
     return res.json({ applied: appliedJob.jobs })
   } catch (err) {
     return next(err)
   }
 })
+
 
 
 

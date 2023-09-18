@@ -288,39 +288,15 @@ describe("PATCH /users/:username", () => {
   });
 });
 
-/************************************** DELETE /users/:username */
-
-describe("DELETE /users/:username", function () {
-  test("works for users", async function () {
-    const resp = await request(app)
-        .delete(`/users/u1`)
-        .set("authorization", `Bearer ${u1Token}`);
-    console.log(resp.body)
-    expect(resp.body).toEqual({ deleted: "u1" });
-  });
-
-  test("unauth for anon", async function () {
-    const resp = await request(app)
-        .delete(`/users/u1`);
-    expect(resp.statusCode).toEqual(401);
-  });
-
-  test("not found if user missing", async function () {
-    const resp = await request(app)
-        .delete(`/users/nope`)
-        .set("authorization", `Bearer ${u1Token}`);
-    console.log(resp.statusCode)
-    expect(resp.statusCode).toEqual(404);
-  });
-});
-
 /************************************** POST /users/:username/jobs/:id */
 
 describe("POST /users/:username/jobs/:id", function() {
   test("works for users to apply for a job", async function () {
     const resp = await request(app)
       .post(`/users/u1/jobs/${testJobIds[1]}`)
+      // .get(`/u1`)
       .set("authorization", `Bearer ${u1Token}`);
+    console.log("Test: get");
     console.log(resp.body)
     expect(resp.statusCode).toEqual(200);
     expect(resp.body).toEqual({ applied: testJobIds[1] })
@@ -349,3 +325,29 @@ describe("POST /users/:username/jobs/:id", function() {
     exoect(resp.statusCode).toEqual(404)
   })
 })
+
+/************************************** DELETE /users/:username */
+
+describe("DELETE /users/:username", function () {
+  test("works for users", async function () {
+    const resp = await request(app)
+        .delete(`/users/u1`)
+        .set("authorization", `Bearer ${u1Token}`);
+    console.log(resp.body)
+    expect(resp.body).toEqual({ deleted: "u1" });
+  });
+
+  test("unauth for anon", async function () {
+    const resp = await request(app)
+        .delete(`/users/u1`);
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test("not found if user missing", async function () {
+    const resp = await request(app)
+        .delete(`/users/nope`)
+        .set("authorization", `Bearer ${u1Token}`);
+    console.log(resp.statusCode)
+    expect(resp.statusCode).toEqual(404);
+  });
+});
