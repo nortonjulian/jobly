@@ -292,6 +292,8 @@ describe("PATCH /users/:username", () => {
 
 describe("POST /users/:username/jobs/:id", function() {
   test("works for users to apply for a job", async function () {
+    console.log("****", testJobIds[1])
+    console.log("^^^", u1Token)
     const resp = await request(app)
       .post(`/users/u1/jobs/${testJobIds[1]}`)
       // .get(`/u1`)

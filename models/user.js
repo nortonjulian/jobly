@@ -207,17 +207,14 @@ class User {
 
   static async applyForJob(username, jobId) {
     const result = await db.query(
-      `UPDATE users
-      SET job = array_append(jobs, $2)
-      WHERE username = $1
-      RETURNING username, jobs`,
+      `INSERT INTO applications
+       (username, job_id) VALUES ($1, $2)`,
       [username, jobId]
     )
 
     if (result.rows.length === 0) {
       throw new Error(`User with username: ${username} not found`)
     }
-
     return result.rows[0]
   }
 }

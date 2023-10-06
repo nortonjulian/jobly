@@ -119,12 +119,11 @@ router.delete("/:username", ensureLoggedIn, async function (req, res, next) {
   }
 });
 
-router.post("/:username/jobs/:id", ensureAdmin, async function (req, res, next) {
+router.post("/:username/jobs/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
     const { username, id } = req.params;
     console.log(username)
     console.log(id)
-    ensureAdmin(req, username);
     console.log("Logged in")
 
     const appliedJob = await User.applyForJob(username, id);
@@ -135,8 +134,6 @@ router.post("/:username/jobs/:id", ensureAdmin, async function (req, res, next) 
     return next(err)
   }
 })
-
-
 
 
 module.exports = router;
