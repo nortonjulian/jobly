@@ -129,7 +129,7 @@ router.post("/:username/jobs/:id", ensureCorrectUserOrAdmin, async function (req
     const appliedJob = await User.applyForJob(username, id);
     console.log(appliedJob)
 
-    return res.json({ applied: appliedJob.jobs })
+    return res.json({ applied: appliedJob.job_id })
   } catch (err) {
     return next(err)
   }

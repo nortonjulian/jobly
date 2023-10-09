@@ -208,14 +208,14 @@ class User {
   static async applyForJob(username, jobId) {
     const result = await db.query(
       `INSERT INTO applications
-       (username, job_id) VALUES ($1, $2)`,
+       (username, job_id) VALUES ($1, $2) returning username, job_id`,
       [username, jobId]
     )
     console.log("Select query")
     console.log(result)
     console.log(result.rows)
     console.log(result.rows.length)
-    if (result.rows.length > 0) {
+    if (result.rows.length === 0) {
       throw new Error(`User with username: ${username} not found`)
     }
     return result.rows[0]
