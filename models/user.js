@@ -211,8 +211,15 @@ class User {
        (username, job_id) VALUES ($1, $2)`,
       [username, jobId]
     )
-
-    if (result.rows.length === 0) {
+    console.log("Select query")
+     result = await db.query(
+      `SELECT * FROM applications`
+    )
+    console.log("Select query")
+    console.log(result)
+    console.log(result.rows)
+    console.log(result.rows.length)
+    if (result.rows.length > 0) {
       throw new Error(`User with username: ${username} not found`)
     }
     return result.rows[0]
