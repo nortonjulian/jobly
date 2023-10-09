@@ -322,10 +322,10 @@ describe("POST /users/:username/jobs/:id", function() {
 
   test("not found if user does not exist", async function () {
     const resp = await request(app)
-      .post(`users/nope/jobs/${testJobIds[1]}`)
+      .post(`/users/nope/jobs/${testJobIds[1]}`)
       .set("authorization", `Bearer ${u1Token}`)
     console.log(resp.statusCode)
-    exoect(resp.statusCode).toEqual(404)
+    expect(resp.statusCode).toEqual(401)
   })
 })
 

@@ -206,6 +206,7 @@ class User {
   }
 
   static async applyForJob(username, jobId) {
+    
     const result = await db.query(
       `INSERT INTO applications
        (username, job_id) VALUES ($1, $2) returning username, job_id`,
