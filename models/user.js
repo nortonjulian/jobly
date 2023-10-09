@@ -212,10 +212,6 @@ class User {
       [username, jobId]
     )
     console.log("Select query")
-     result = await db.query(
-      `SELECT * FROM applications`
-    )
-    console.log("Select query")
     console.log(result)
     console.log(result.rows)
     console.log(result.rows.length)
